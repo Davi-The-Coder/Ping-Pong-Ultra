@@ -72,7 +72,7 @@ bola = pygame.Rect(LarguraTela/2,AlturaTela/2, 20, 20)  #a posicao inicial dela 
 
 #direcoes random
 xrandom = random.randint(-2,2)
-while xrandom == 0:
+while xrandom == 0:  #NAO POde PEGAR 0 SE pegar 0 troca
     if xrandom == 0:
        xrandom = random.randint(-2,2)
 yrandom = xrandom
@@ -103,9 +103,9 @@ while ativo:
     tela.blit(texto_aparencia3, texto_rect3)  # texto que pega a posicao do quadrado -- copia o texto e cola ele na tela
     
     
-    TempoDeAgora = pygame.time.get_ticks()
+    TempoDeAgora = pygame.time.get_ticks()  #PEGAR O TEMPO ATUAL
     
-    pygame.draw.rect(tela, "cyan", jogador1)
+    pygame.draw.rect(tela, "cyan", jogador1)  #DESENHAR OS JOGADORES E A BOLA NA TELA
     pygame.draw.rect(tela, "red", jogador2)
     pygame.draw.rect(tela, "magenta", bola)
     
@@ -118,7 +118,7 @@ while ativo:
     if dashFrame == 0:
         cooldown = False 
     
-    if TempoDeAgora - dashtime < 1000:
+    if TempoDeAgora - dashtime < 1000:  #COOLDOWN
         canDash = False
     else:
         canDash = True
@@ -129,7 +129,7 @@ while ativo:
     if dashFrame2 == 0:
         cooldown2 = False 
     
-    if TempoDeAgora - dashtime2 < 1000:
+    if TempoDeAgora - dashtime2 < 1000:  #COOLDOWN
         canDash2 = False
     else:
         canDash2 = True
@@ -143,7 +143,7 @@ while ativo:
         powerpunch = False
         jogador1.x = 50
     
-    if TempoDeAgora - dashtime < 1000:
+    if TempoDeAgora - dashtime < 3000:  #COOLDOWN
         canPunch = False
     else:
         canPunch = True
@@ -157,20 +157,20 @@ while ativo:
         powerpunch2 = False
         jogador2.x = LarguraTela-50
     #COOLDOWN PRA N SPAMMAR
-    if TempoDeAgora - dashtime2 < 3000:
+    if TempoDeAgora - dashtime2 < 3000:  #COOLDOWN
         canPunch2 = False
     else:
         canPunch2 = True    
     
-    tecla = pygame.key.get_pressed()
+    tecla = pygame.key.get_pressed()   #MOVIMENTACAO DOS JOGADORES
     if cooldown == False:  
-        if tecla[pygame.K_w]:
+        if tecla[pygame.K_w]:   #PLAYER 1
             MexeuBaixo1 = False
             jogador1.move_ip(0,-5)
         if tecla[pygame.K_s]:
             MexeuBaixo1 = True
             jogador1.move_ip(0,5)
-        if tecla[pygame.K_UP]:
+        if tecla[pygame.K_UP]:    #PLAYER 2
             MexeuBaixo2 = False
             jogador2.move_ip(0,-5)
         if tecla[pygame.K_DOWN]:
@@ -234,7 +234,7 @@ while ativo:
         pygame.display.update()    # Mostra na tela imediatamente
         pygame.time.wait(500)    #congela a tela por 0.5 secs
         filtro.set_alpha(0)      #dps do freeze tira o filtro branco
-        bola.x = jogador1.x+20
+        bola.x = jogador1.x+20   #colocar a bola um pouco a frente do jogador pra ela n entrar dentro dele ou so sumir 
         print("velocidade no x:",xrandom,"velocidade no y:",yrandom)
         
     
@@ -258,8 +258,8 @@ while ativo:
         if bola.x <= 0:
             ponto2 = ponto2+1
         #REPOCISIONAMENTO DAS COISAS
-        perder.play()
-        pygame.time.wait(1000)    #congela a tela por 0.5 secs
+        perder.play()   #toca o som de perder
+        pygame.time.wait(1000)    #congela a tela por 1 sec
         bola.x = LarguraTela/2
         bola.y = AlturaTela/2
         xrandom = velocidadeincial
@@ -274,7 +274,7 @@ while ativo:
 
     
     bola.move_ip(xrandom, yrandom)
-    if bola.y == AlturaTela or bola.y == 0:
+    if bola.y == AlturaTela or bola.y == 0:   #inverter e aumentar a velocidade da bola ao bater em cima da tela ou em baixo com limite de 10x de velocidade
         if abs(xrandom) and abs(yrandom) <= 10:
             yrandom = yrandom*-1.1
             xrandom = xrandom*1.1
@@ -295,7 +295,7 @@ while ativo:
                     impulso.play()
                     cooldown = True
                     dashFrame = 15
-                    if MexeuBaixo1 == True:
+                    if MexeuBaixo1 == True:   #decide se o dash vai pra cima ou pra baixo
                         dashdirecao = 10
                     else:
                         dashdirecao = -10
@@ -314,7 +314,7 @@ while ativo:
                     impulso.play()
                     cooldown2 = True
                     dashFrame2 = 15
-                    if MexeuBaixo2 == True:
+                    if MexeuBaixo2 == True:   #Decide se o dash vai pra cima ou pra baixo
                         dashdirecao = 10
                     else:
                         dashdirecao = -10
@@ -327,6 +327,6 @@ while ativo:
                     powerpunch2 = True
                     punchFrame2 = 15
                     dashdirecao = 15
-    pygame.display.update() #atualizar a cada ciclo
+    pygame.display.update() #atualizar a cada ciclo em outra maneira de dizer (fps) - Frames por segundo
     tempo.tick(60) #limitar a 60 fps pra nao bugar tudo
-pygame.quit()
+pygame.quit()   #Fecha o jogo
